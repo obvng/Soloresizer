@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SoloResizer is a free online image editor. Resize, crop, compress, convert, and edit images easily in your browser. No registration required." />
+    <meta name="keywords" content="image resizer, online photo editor, crop image, compress jpeg, convert png to jpg, bulk image resizer" />
+    <meta name="author" content="SoloResizer" />
+    <meta property="og:title" content="SoloResizer - Free Online Image Editor & Converter" />
+    <meta property="og:description" content="The ultimate tool for resizing, cropping, and optimizing images online." />
+    <meta property="og:type" content="website" />
+    <title>SoloResizer - Free Online Image Editor & Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      /* Custom scrollbar for tool panel */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      
+      .crop-handle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-color: #10b981;
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        pointer-events: none;
+      }
+      
+      /* Checkerboard pattern for transparent images - Light Theme */
+      .checkerboard {
+        background-color: #ffffff;
+        background-image: 
+          linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+          linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+          linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 text-gray-800 antialiased flex flex-col h-screen overflow-hidden">
+    <div id="root" class="flex-1 flex flex-col h-full"></div>
+  </body>
+</html>
