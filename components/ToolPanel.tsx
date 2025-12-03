@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ToolType, ImageState, WatermarkSettings } from '../types';
 import Button from './Button';
@@ -416,6 +417,31 @@ const ToolPanel: React.FC<ToolPanelProps> = ({
 
              <Button fullWidth size="lg" onClick={() => onApply('', 'WATERMARK')} disabled={isLoading}>
                Apply Watermark
+             </Button>
+          </div>
+        );
+      
+      case ToolType.AI_UPSCALE:
+        return (
+          <div className="space-y-4">
+             <h3 className="font-bold text-lg text-gray-900 pb-2">AI Upscale & Enhance</h3>
+             <div className="bg-purple-50 border border-purple-100 p-4 rounded-lg text-sm text-purple-900">
+                <p className="font-bold mb-1"> ✨ Powered by Gemini AI</p>
+                Uses generative AI to increase resolution, sharpen details, and improve image quality.
+             </div>
+             
+             <p className="text-xs text-gray-500 italic">
+               Note: The AI will regenerate the image with higher details. This may slightly alter facial features or small details.
+             </p>
+
+             <Button 
+                fullWidth 
+                size="lg" 
+                onClick={() => onApply('', 'AI_UPSCALE')} 
+                disabled={isLoading}
+                className="bg-purple-600 hover:bg-purple-700 text-white focus:ring-purple-500"
+             >
+               {isLoading ? 'Upscaling...' : 'Upscale Image 2x'}
              </Button>
           </div>
         );

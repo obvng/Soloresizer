@@ -1,3 +1,4 @@
+
 export enum ToolType {
   UPLOAD = 'UPLOAD',
   CROP = 'CROP',
@@ -7,7 +8,8 @@ export enum ToolType {
   COMPRESS = 'COMPRESS',
   CONVERT = 'CONVERT',
   WATERMARK = 'WATERMARK',
-  AI_DESCRIBE = 'AI_DESCRIBE'
+  AI_DESCRIBE = 'AI_DESCRIBE',
+  AI_UPSCALE = 'AI_UPSCALE'
 }
 
 export enum AppMode {

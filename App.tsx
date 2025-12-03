@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ToolType, ImageState, AppMode, WatermarkSettings } from './types';
 import Upload from './components/Upload';
@@ -16,6 +17,7 @@ import {
   loadImage,
   watermarkImage
 } from './services/imageUtils';
+import { upscaleImageWithGemini } from './services/geminiService';
 
 const MENU_ITEMS = [
   { id: ToolType.CROP, label: 'Crop', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /> }, 
@@ -25,7 +27,8 @@ const MENU_ITEMS = [
   { id: ToolType.COMPRESS, label: 'Compress', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" /> },
   { id: ToolType.CONVERT, label: 'Convert', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /> },
   { id: ToolType.WATERMARK, label: 'Watermark', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" /> },
-  { id: ToolType.AI_DESCRIBE, label: 'AI Describe', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /> },
+  { id: ToolType.AI_UPSCALE, label: 'AI Upscale', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /> },
+  { id: ToolType.AI_DESCRIBE, label: 'AI Describe', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /> },
 ];
 
 const LANDING_CONTENT: Record<string, { title: string; subtitle: string }> = {
@@ -37,6 +40,7 @@ const LANDING_CONTENT: Record<string, { title: string; subtitle: string }> = {
   [ToolType.ROTATE]: { title: 'Rotate Image', subtitle: 'Rotate your photos 90 or 180 degrees clockwise or counter-clockwise.' },
   [ToolType.FLIP]: { title: 'Mirror Image', subtitle: 'Flip your images horizontally or vertically instantly.' },
   [ToolType.WATERMARK]: { title: 'Add Watermark', subtitle: 'Add text watermarks to your images to protect your work.' },
+  [ToolType.AI_UPSCALE]: { title: 'AI Image Upscaler', subtitle: 'Enhance image quality and resolution using artificial intelligence.' },
   [ToolType.AI_DESCRIBE]: { title: 'AI Image Describer', subtitle: 'Generate descriptions and alt text using AI.' },
 };
 
@@ -244,6 +248,9 @@ const App: React.FC = () => {
         case 'WATERMARK':
              resultUrl = await watermarkImage(resultUrl, watermarkSettings);
           break;
+        case 'AI_UPSCALE':
+             resultUrl = await upscaleImageWithGemini(resultUrl, imageState.type);
+          break;
       }
 
       const img = await loadImage(resultUrl);
@@ -274,7 +281,7 @@ const App: React.FC = () => {
 
     } catch (e) {
       console.error(e);
-      alert("Operation failed. The image might be too large or invalid.");
+      alert("Operation failed. The image might be too large or invalid, or the AI service is unavailable.");
     } finally {
       setIsLoading(false);
     }
