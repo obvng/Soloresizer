@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ToolType, ImageState, AppMode, WatermarkSettings } from './types';
 import Upload from './components/Upload';
@@ -191,6 +190,18 @@ const App: React.FC = () => {
     setHistory([]);
     // Do not reset hash/activeTool to preserve "Page" feel
     // If user was on Crop Page, they stay on Crop Page (showing Crop Landing content)
+  };
+
+  const handleNewImage = () => {
+    // If there are changes (history), ask for confirmation.
+    // If no changes, just reset immediately.
+    if (history.length > 0) {
+        if (window.confirm("Discard current edits and start over?")) {
+            handleDelete();
+        }
+    } else {
+        handleDelete();
+    }
   };
 
   const handleUndo = () => {
@@ -465,12 +476,16 @@ const App: React.FC = () => {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
                   <span className="hidden sm:inline">Undo</span>
                 </Button>
-                <Button variant="primary" size="sm" onClick={() => {
-                    if (window.confirm("Start over with a new image?")) {
-                      handleDelete();
-                    }
-                }}>
-                    New
+                <Button 
+                  variant="primary" 
+                  size="sm" 
+                  onClick={handleNewImage}
+                  className="flex items-center gap-1.5"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>New Image</span>
                 </Button>
               </div>
             )}

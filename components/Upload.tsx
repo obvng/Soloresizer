@@ -20,12 +20,21 @@ const Upload: React.FC<UploadProps> = ({ onFileSelect }) => {
     }
   };
 
+  const handleClick = () => {
+    if (inputRef.current) {
+        // Critical fix: Reset value before clicking to ensure onChange fires 
+        // even if the user selects the exact same file as before.
+        inputRef.current.value = '';
+        inputRef.current.click();
+    }
+  };
+
   return (
     <div 
-      className="max-w-xl mx-auto mt-20 p-10 border-2 border-dashed border-gray-300 rounded-2xl bg-white hover:border-emerald-500 hover:bg-emerald-50 transition-all cursor-pointer text-center group"
+      className="max-w-xl mx-auto mt-20 p-10 border-2 border-dashed border-gray-300 rounded-2xl bg-white hover:border-emerald-500 hover:bg-emerald-50 transition-all cursor-pointer text-center group select-none"
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
-      onClick={() => inputRef.current?.click()}
+      onClick={handleClick}
     >
       <input 
         type="file" 
